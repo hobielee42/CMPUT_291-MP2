@@ -9,7 +9,7 @@ db = client['291db']
 
 
 def main():
-    addMovie()
+    addMember()
 
 
 def addMovie():
@@ -83,7 +83,7 @@ def addMember():
             'Please enter a cast/crew member id\nor press enter to abort: ')
         if mid == '':
             return 0
-        rslt = nb.find({'nconst': mid})
+        rslt = list(nb.find({'nconst': mid}))
         if rslt != []:
             break
         print('The cast/crew member does not exist.')
@@ -92,17 +92,17 @@ def addMember():
             'Please enter a title id\nor press enter to abort: ')
         if tid == '':
             return 0
-        rslt = nb.find({'tconst': tid})
+        rslt = list(tb.find({'tconst': tid}))
         if rslt != []:
             break
         print('The title does not exist.')
     category = input('Please enter a category\nor press enter to abort: ')
     if category == '':
         return 0
-    castNCrew = list([
+    castNCrew = list(tp.aggregate([
         {'$match': {'tconst': tid}},
         {'$group': {'_id': '$tconst', 'maxOrd': {'$max': '$ordering'}}}
-    ])
+    ]))
     if castNCrew == []:
         ord = 1
     else:
@@ -115,7 +115,7 @@ def addMember():
         "job": '\\N',
         "characters": ["\\N"]}
 
-    tp.insert(newMember)
+    tp.insert_one(newMember)
 
 
 if __name__ == "__main__":
