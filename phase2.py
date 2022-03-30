@@ -18,11 +18,13 @@ def menu():
         print('-'*10)
         print('MAIN MENU')
         print('-'*10)
-        print('1. Search for titles')
-        print('2. Search for genres')
-        print('3. Search for cast/crew members')
-        print('4. Add a movie')
-        print('5. Add a cast/crew member\n')
+        print('''
+1. Search for titles
+2. Search for genres
+3. Search for cast/crew members
+4. Add a movie
+5. Add a cast/crew member
+''')
         while True:
             op = input(
                 'Enter a number to select an option\nor press enter to end program: ')
@@ -62,7 +64,7 @@ To search for a genre enter here: ''')
                 free = 1
         if free == 0:
             x = 'back1'
-            print("That is not a value genra\n")
+            print("That is not a value genre\n")
         genre = inp.lower()
         isnumber = False
         while(not isnumber and x != 'back1'):
