@@ -8,21 +8,21 @@ db = client['291db']
 
 def test1():
     global db
-    tp = db['title_principals']
-    print(list(tp.find({'category':'test'})))
+    col = db['title_basics']
+    print(list(col.find({'tconst':'test'})))
 
 
 def test2():
     global db
-    tp = db['title_principals']
-    tp.delete_one({'category': 'test'})
+    col = db['title_basics']
+    col.delete_one({'tconst': 'test'})
 
 def test3():
     global db
     print(db.list_collection_names())
 
 def main():
-    test1()
+    test2()
 
 
 main()

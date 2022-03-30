@@ -9,14 +9,10 @@ def main():
 
     client = MongoClient("localhost", int(port))
     db = client['291db']
-    name_basic = db["name_basic"]
-    title_basic = db["title_basic"]
-    title_principal = db["title_principal"]
-    title_rating = db["title_rating"]    
-    menu(db, name_basic,title_basic,title_principal,title_rating)
+    menu()
 
 
-def menu(db, name_basic,title_basic,title_principal,title_rating):
+def menu():
     while True:
         print('-'*10)
         print('MAIN MENU')
@@ -33,9 +29,9 @@ def menu(db, name_basic,title_basic,title_principal,title_rating):
                 break
             print('Invalid option.')
         if op == '1':
-            flag = search(db,name_basic,title_basic,title_principal,title_rating)
+            flag = search()
         elif op == '2':
-            genres_search(db,name_basic,title_basic,title_principal,title_rating)
+            genres_search()
         elif op == '3':
             pass            # Ian plug in your L0NG B0I here
         elif op == '4':
@@ -45,7 +41,9 @@ def menu(db, name_basic,title_basic,title_principal,title_rating):
         if flag == 1:
             break
         
-def genres_search(db,name_basic,title_basic,title_principal,title_rating):
+def genres_search():
+    title_basic=db['title_basic']
+    global db
     genres = title_basic.distinct("genres")
     while(1):
         free = 0
@@ -118,7 +116,12 @@ enter a minium vote count: ''')
                     #    print(flim['primaryTitle'], movie['averageRating'])
                 #print("hey")
         
-def search(db,name_basic,title_basic,title_principal,title_rating):
+def search():
+    global db
+    name_basic=db['name_basic']
+    title_basic=db['title_basic']
+    title_principal=db['title_principal']
+    title_rating=db['title_rating']
     while(1):
         x = ""   
         inp = input('''
