@@ -6,8 +6,8 @@
     all say "Actor", but not all are actors. DONE
     check line 258 DONE
     
-    empty input crashes
-    appears in line where inp[] used
+    empty input crashes DONE
+    appears in line where inp[] used DONE
 
 - part 1, 2 and 3:
     output not readable
