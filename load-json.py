@@ -38,6 +38,8 @@ def main():
 #                    collections[fileName].insert_one(json.loads(line))
 
         collections[fileName].insert_many(data)
+        if "name" not in fileName:
+            collections[fileName].create_index([("tconst", 1)])
         
     db["title_ratings"].create_index([("numVotes", 1)])
         
