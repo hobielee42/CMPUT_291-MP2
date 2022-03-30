@@ -56,7 +56,6 @@ def cast_search():
         inp = input('''
 To go back to menu type 'back'
 To search for a cast/crew member enter their name here: ''')
-        list_of_cast = []
         if inp.lower() == 'back':
             return
         if inp.lower() == 'back':
@@ -73,11 +72,13 @@ To search for a cast/crew member enter their name here: ''')
             dic_list.append(search)
         casts = name_basics.find_one({'$and': dic_list})
         print(casts['primaryName'])
-        movies = title_principals.find({'nconst':casts['nconst']})
+        movies = title_principals.find({'nconst': casts['nconst']})
         for movie in movies:
-            actual_name = title_basics.find_one({'tconst':movie['tconst']})
-            print("movie title:", actual_name['primaryTitle'], "job: ", movie['category'], 'role: ', movie['characters'])    
-   
+            actual_name = title_basics.find_one({'tconst': movie['tconst']})
+            print("Title:", actual_name['primaryTitle'], "job: ",
+                  movie['category'], 'role: ', movie['characters'])
+
+
 def genres_search():
     global db
     title_basics = db['title_basics']
