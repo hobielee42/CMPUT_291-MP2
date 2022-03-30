@@ -45,15 +45,15 @@ def tsvToJson(filename):
                 if "[" in doc[i] or "]" in doc[i]: # imdb randomly decides to use [] to denote arrays in principals
                     pass
                 else:
-                    doc[i] = doc[i].split(",").__repr__().replace("\'", "\"")
+                    doc[i] = doc[i].split(",").__repr__().replace("\'", "\"").replace("\\\\", "\\")
                 
             elif doc[i].isdigit(): # if field is a number
                 # get rid of pesky trailing 0s
                 while doc[i][0] == "0" and len(doc[i]) > 1:
                     doc[i] = doc[i][1:]
                 
-            elif doc[i] == "\\N":
-                doc[i] = "null"
+#            elif doc[i] == "\\N":
+#                doc[i] = "null"
                 
             else:
                 # because for some reason imdb thinks putting " in names is funny
