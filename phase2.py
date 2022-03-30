@@ -32,7 +32,7 @@ def menu():
                 break
             print('Invalid option.')
         if op == '1':
-            flag = search()
+            flag = title_search()
         elif op == '2':
             genres_search()
         elif op == '3':
@@ -161,7 +161,7 @@ enter a minimum vote count: ''')
                               rate['averageRating'], ', Votes:', rate['numVotes'])
 
 
-def search():
+def title_search():
     global db
     name_basics = db['name_basics']
     title_basics = db['title_basics']
