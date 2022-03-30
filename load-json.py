@@ -43,6 +43,7 @@ def main():
         
     db["title_ratings"].create_index([("numVotes", 1)])
     db["name_basics"].create_index([("primaryName", 1)])
+    db["title_basics"].create_index([("primaryTitle", 1)])
         
     client.close()
 
