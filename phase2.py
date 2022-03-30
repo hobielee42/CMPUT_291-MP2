@@ -155,7 +155,9 @@ def search():
     title_ratings = db['title_ratings']
     while(1):
         x = ""
-        inp = input('''
+        inp = ""
+        while(len(inp) <= 0):
+            inp = input('''
 To go back to menu type 'back'
 To search for a movie enter key words here: ''')
         if inp.lower() == 'back':
@@ -200,7 +202,8 @@ To search for a movie enter key words here: ''')
                 x = 'back2'
             inp = "d"
             while(not(ord(inp[0]) >= 48 and ord(inp[0]) <= 57) and x != 'back2'):
-                inp = input('''
+                while(inp == "d" or len(inp) <= 0):
+                    inp = input('''
 to go back to main menu type 'back'
 to preform another search type 'search'
 to select a title enter the number that appeared by the movie: ''')
@@ -221,6 +224,7 @@ to select a title enter the number that appeared by the movie: ''')
                 people_list = []
                 for people in peoples:
                     crew = []
+                    crew.append(people["category"])
                     characters = name_basics.find({'nconst': people['nconst']})
                     for character in characters:
                         crew.append(character['primaryName'])
@@ -233,11 +237,12 @@ to select a title enter the number that appeared by the movie: ''')
                     print(
                         "Rating: ", rate_vote["averageRating"], "\nVotes:", rate_vote["numVotes"])
                 for people in people_list:
-                    print("Actor: ", people[0], "   Character: ", people[1])
+                    print(people[0], ": ", people[1], "   Character: ", people[2])
 
-                inp = 'd'
+                inp = ''
                 while(x != "back1" and x != "back2"):
-                    inp = input('''
+                    while(len(inp) <= 0):
+                        inp = input('''
 to go back to main menu type 'back'
 to search again enter 1
 to select another title from you previous search enter 2: ''')

@@ -2,9 +2,16 @@
     title searched based on "Known for titles" in name_basics, which is wrong
 
 - part 1:
-    the professions of cast/crew not printed correctly.
-    all say "Actor", but not all are actors.
-    check line 258
+    the professions of cast/crew not printed correctly. DONE
+    all say "Actor", but not all are actors. DONE
+    check line 258 DONE
+    
+    empty input crashes DONE
+    appears in line where inp[] used DONE
 
 - part 1, 2 and 3:
     output not readable
+
+- part 2 and 3:
+    need return-to-menu-or-end-program option and cue
+    
