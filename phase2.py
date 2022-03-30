@@ -71,44 +71,13 @@ To search for a cast/crew member enter their name here: ''')
             dick['$options'] = '-i'
             search['primaryName'] = dick
             dic_list.append(search)
-        casts = name_basics.find({'$and': dic_list})
-        for cast in casts:
-            dic_list = []
-            search = {}
-            list_of_cast.append(cast)
-            for title in cast['knownForTitles']:
-                if title != '\\N':
-                    search['tconst'] = title
-                    dic_list.append(search)
-            print(cast['primaryName']+':')
-
-            if len(dic_list) > 0:
-                movies = title_basics.find({'$or': dic_list})
-                for movie in movies:
-                    print('Title:', movie['primaryTitle'])
-                    jobs = title_principals.find(
-                        {'$and': [{'tconst': movie['tconst']}, {'nconst': cast['nconst']}]})
-                    for job in jobs:
-                        jobstr = 'Job: '+job['category']
-                        # print('    job:',
-                        #       job['category'], job['characters'])
-                        if job['category'] in ['actor', 'actress'] or job['characters'] != ['\\N']:
-                            jobstr += '\nCharacter(s): '
-                            for character in job['characters']:
-                                if character == '\\N':
-                                    character = 'N/A'
-                                jobstr += character+', '
-                            jobstr = jobstr[:-2]
-                        else:
-                            if job['job'] != '\\N':
-                                jobstr += ' - '+job['job']
-                        print(jobstr)
-
-                        # else:
-                        #    print(' No Movies ')
-            print('')
-
-
+        casts = name_basics.find_one({'$and': dic_list})
+        print(casts['primaryName'])
+        movies = title_principals.find({'nconst':casts['nconst']})
+        for movie in movies:
+            actual_name = title_basics.find_one({'tconst':movie['tconst']})
+            print("movie title:", actual_name['primaryTitle'], "job: ", movie['category'], 'role: ', movie['characters'])    
+   
 def genres_search():
     global db
     title_basics = db['title_basics']
