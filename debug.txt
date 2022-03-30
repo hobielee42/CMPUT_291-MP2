@@ -12,6 +12,7 @@
 - part 1, 2 and 3:
     output not readable
         part 1 somewhat fixed
+        part 3 fixed
 
 - part 2 and 3:
     need return-to-menu-or-end-program option and cue

@@ -8,8 +8,8 @@ db = client['291db']
 
 def test1():
     global db
-    col = db['title_basics']
-    print(list(col.find({'tconst':'test'})))
+    col = db['title_principals']
+    print(list(col.find({'tconst':'tt0073537'})))
 
 
 def test2():
@@ -22,7 +22,7 @@ def test3():
     print(db.list_collection_names())
 
 def main():
-    test2()
+    test1()
 
 
 main()

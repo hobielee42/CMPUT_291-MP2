@@ -85,14 +85,27 @@ To search for a cast/crew member enter their name here: ''')
             if len(dic_list) > 0:
                 movies = title_basics.find({'$or': dic_list})
                 for movie in movies:
-                    print('title:', movie['primaryTitle'])
-                    people = title_principals.find(
+                    print('Title:', movie['primaryTitle'])
+                    jobs = title_principals.find(
                         {'$and': [{'tconst': movie['tconst']}, {'nconst': cast['nconst']}]})
-                    for person in people:
-                        print('    job:',
-                              person['category'], person['characters'])
-            # else:
-            #    print(' No Movies ')
+                    for job in jobs:
+                        jobstr = 'Job: '+job['category']
+                        # print('    job:',
+                        #       job['category'], job['characters'])
+                        if job['category'] in ['actor', 'actress'] or job['characters'] != ['\\N']:
+                            jobstr += '\nCharacter(s): '
+                            for character in job['characters']:
+                                if character == '\\N':
+                                    character = 'N/A'
+                                jobstr += character+', '
+                            jobstr = jobstr[:-2]
+                        else:
+                            if job['job'] != '\\N':
+                                jobstr += ' - '+job['job']
+                        print(jobstr)
+
+                            # else:
+                            #    print(' No Movies ')
             print('')
 
 
