@@ -55,41 +55,31 @@ def cast_search():
     while(1):
         inp = input('''
 To go back to menu type 'back'
-To search for a cast/crew member enter there name here: ''')
+To search for a cast/crew member enter their name here: ''')
         list_of_cast = []
         if inp.lower() == 'back':
             return
         if inp.lower() == 'back':
             return
         key_words = inp.split()
-        number = len(key_words)
-        list_of_movies = []
         search = {}
         dic_list = []
         for word in key_words:
-            enter = 0
             search = {}
             dick = {}
-            #word = word.lower()
             dick['$regex'] = '.*' + word + '.*'
             dick['$options'] = '-i'
             search['primaryName'] = dick
             dic_list.append(search)
-        #casts = db.name_basic.find({'primaryName' : {'$regex' : '.*' + inp +'.*', '$options' : 'i'}})
-        casts = db.name_basic.find({'$and': dic_list})
+        casts = name_basics.find({'$and': dic_list})
         for cast in casts:
             dic_list = []
             search = {}
-            # print(cast)
             list_of_cast.append(cast)
-            #dick = {}
-            #word = word.lower()
             for title in cast['knownForTitles']:
                 if title != '\\N':
-                    #dick['$regex'] = '.*' + title + '.*'
                     search['tconst'] = title
                     dic_list.append(search)
-            # print(dic_list)
             print(cast['primaryName'], ' :')
             if len(dic_list) > 0:
                 movies = title_basics.find({'$or': dic_list})
@@ -193,8 +183,6 @@ To search for a movie enter key words here: ''')
         if inp.lower() == 'back':
             return
         key_words = inp.split()
-        number = len(key_words)
-        list_of_movies = []
         search = {}
         dic_list = []
         for word in key_words:
@@ -209,7 +197,6 @@ To search for a movie enter key words here: ''')
                 enter = 0
                 search = {}
                 dick = {}
-                #word = word.lower()
                 dick['$regex'] = '.*' + word + '.*'
                 for letter in word:
                     if ord(letter) >= 48 and ord(letter) <= 57:
@@ -220,11 +207,9 @@ To search for a movie enter key words here: ''')
 
             dic_list.append(search)
         print(dic_list)
-        #movies = title_basic.find({'$and': [{'primaryTitle': {'$regex': '.*' + inp + '.*' }} ]})
         while(x != "back2"):
             x = 'd'
             movies = title_basics.find({'$and': dic_list})
-            #movies = title_basic.find({'primaryTitle': '*' + word + '*'})
             movie_list = []
             count = 1
             for mov in movies:
@@ -253,7 +238,6 @@ to select a title enter the number that appeared by the movie: ''')
                 print(selected_movie)
 
                 rate_votes = title_rating.find({'tconst': selected_movie})
-                #rate_votes = title_rating.find({})
                 peoples = title_principals.find({'tconst': selected_movie})
 
                 people_list = []
@@ -285,10 +269,6 @@ to select another title from you previous search enter 2: ''')
                         x = "back1"
                     if inp.lower() == 'back':
                         return
-                #movies_collection.find({ '$text': { '$search': word }});
-                #movs = movies_collection.find({"title": "Spiderman 6"})
-                # for mov in movs:
-                #    print(mov["title"], mov["category_name"], mov["formats"])
 
 
 def addMovie():
