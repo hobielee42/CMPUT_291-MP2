@@ -45,18 +45,20 @@ def menu():
             break
         if flag == 1:
             break
+
+
 def cast_search():
     global db
-    name_basic = db["name_basic"]
-    title_basic = db["title_basic"]    
-    title_principal = db["title_principal"]
+    name_basics = db["name_basics"]
+    title_basics = db["title_basics"]
+    title_principals = db["title_principal"]
     while(1):
         inp = input('''
 To go back to menu type 'back'
-To search for a cast/crew member enter there name here: ''')   
+To search for a cast/crew member enter there name here: ''')
         list_of_cast = []
         if inp.lower() == 'back':
-            return 
+            return
         if inp.lower() == 'back':
             return
         key_words = inp.split()
@@ -72,30 +74,32 @@ To search for a cast/crew member enter there name here: ''')
             dick['$regex'] = '.*' + word + '.*'
             dick['$options'] = '-i'
             search['primaryName'] = dick
-            dic_list.append(search)        
+            dic_list.append(search)
         #casts = db.name_basic.find({'primaryName' : {'$regex' : '.*' + inp +'.*', '$options' : 'i'}})
-        casts = db.name_basic.find({'$and' : dic_list})
+        casts = db.name_basic.find({'$and': dic_list})
         for cast in casts:
             dic_list = []
             search = {}
-            #print(cast)
+            # print(cast)
             list_of_cast.append(cast)
             #dick = {}
-            #word = word.lower()            
+            #word = word.lower()
             for title in cast['knownForTitles']:
                 if title != '\\N':
                     #dick['$regex'] = '.*' + title + '.*'
                     search['tconst'] = title
                     dic_list.append(search)
-            #print(dic_list)
+            # print(dic_list)
             print(cast['primaryName'], ' :')
-            if len(dic_list) > 0:    
-                movies = title_basic.find({'$or': dic_list})
+            if len(dic_list) > 0:
+                movies = title_basics.find({'$or': dic_list})
                 for movie in movies:
-                    print('movie title { ',movie['primaryTitle'], '} :')
-                    people = title_principal.find({'$and': [{'tconst' : movie['tconst']}, {'nconst' : cast['nconst']}]})
+                    print('movie title { ', movie['primaryTitle'], '} :')
+                    people = title_principals.find(
+                        {'$and': [{'tconst': movie['tconst']}, {'nconst': cast['nconst']}]})
                     for person in people:
-                        print('    job:',person['category'], person['characters'])
+                        print('    job:',
+                              person['category'], person['characters'])
             else:
                 print(' No Movies ')
             print('')
