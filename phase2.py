@@ -1,15 +1,45 @@
 
 from pymongo import MongoClient
 
-# port = input("Input a port number: ")
-port = 42042
-
-client = MongoClient("localhost", int(port))
-db = client['291db']
-
 
 def main():
-    addMember()
+    global db
+    # port = input("Input a port number: ")
+    port = 42042
+
+    client = MongoClient("localhost", int(port))
+    db = client['291db']
+    menu()
+
+
+def menu():
+    while True:
+        print('-'*10)
+        print('MAIN MENU')
+        print('-'*10)
+        print('1. Search for titles')
+        print('2. Search for genres')
+        print('3. Search for cast/crew members')
+        print('4. Add a movie')
+        print('5. Add a cast/crew member')
+        while True:
+            op = input(
+                'Enter a number to select an option\nor press enter to end program: ')
+            if op in ['1', '2', '3', '4', '5', '']:
+                break
+            print('Invalid option.')
+        if op == '1':
+            pass
+        elif op == '2':
+            pass
+        elif op == '3':
+            pass
+        elif op == '4':
+            flag = addMovie()
+        elif op == '5':
+            flag = addMember()
+        if flag == 1:
+            break
 
 
 def addMovie():
@@ -72,6 +102,15 @@ def addMovie():
 
     col.insert_one(movie)
 
+    print('Movie added successfully!')
+    while True:
+        flag = input('1. Return to main menu\n2. End program\nOption: ')
+        if flag == '1':
+            return 0
+        elif flag == '2':
+            return 1
+        print('Invalid option.')
+
 
 def addMember():
     global db
@@ -116,6 +155,15 @@ def addMember():
         "characters": ["\\N"]}
 
     tp.insert_one(newMember)
+
+    print('cast/crew member added successfully!')
+    while True:
+        flag = input('1. Return to main menu\n2. End program\nOption: ')
+        if flag == '1':
+            return 0
+        elif flag == '2':
+            return 1
+        print('Invalid option.')
 
 
 if __name__ == "__main__":
