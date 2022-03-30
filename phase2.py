@@ -35,7 +35,7 @@ def menu(db, name_basic,title_basic,title_principal,title_rating):
         if op == '1':
             flag = search(db,name_basic,title_basic,title_principal,title_rating)
         elif op == '2':
-            pass            # Ian plug in your L0NG B0I here
+            genres_search(db,name_basic,title_basic,title_principal,title_rating)
         elif op == '3':
             pass            # Ian plug in your L0NG B0I here
         elif op == '4':
@@ -44,6 +44,79 @@ def menu(db, name_basic,title_basic,title_principal,title_rating):
             flag = addMember()
         if flag == 1:
             break
+        
+def genres_search(db,name_basic,title_basic,title_principal,title_rating):
+    genres = title_basic.distinct("genres")
+    while(1):
+        free = 0
+        x = 'd'
+        inp = input('''
+To go back to menu type 'back'
+To search for a genre enter here: ''')        
+        if inp.lower() == 'back':
+            return
+        for cat in genres:
+            if inp.lower() == cat.lower():
+                free = 1
+        if free == 0:
+            x = 'back1'
+            print("That is not a value genra\n")
+        genre = inp.lower()
+        isnumber = False
+        while(not isnumber and x != 'back1'):
+            inp = input('''
+To go back to menu type 'back'
+to search for a different genre type 'genre'
+enter a minium vote count: ''')       
+            if inp.lower() == 'back':
+                return
+            if inp.lower() == 'genre':
+                x = 'back1'
+            if ord(inp[0]) >= 48 and ord(inp[0]) <= 57:
+                isnumber = True
+                votes = int(inp)
+            else:
+                print("Please input a number")
+        if x != 'back1':
+            
+            big_list = []
+            #mov_list = db.title_rating.aggregate([ {"$lookup": { "from": 'title_basic', 'localField': 'tconst', 'foreignField': 'tconst', 'as': 'title'}}]).sort("averageRating", -1)
+            mov_list = db.title_basic.aggregate([{'$unwind': '$genres'},
+                        {'$match': {'$expr': { '$eq': [genre, {'$toLower': '$genres'} ] }}}
+                        ,{'$lookup': { 'from': 'title_rating', 'localField' : 'tconst', 'foreignField' : 'tconst', 'as' : 'rating'}}
+                        ,{'$sort' : { 'rating.averageRating' : -1, 'rating.numVotes' : -1}}])
+            
+            for mov in mov_list:
+                if len(mov['rating']) >0:
+                    if int(row['rating'][0]['numVotes']) >= votes :
+                        big_list.append(mov)
+                          #"let": {"basic_number": '$tconst', "gen" : '$genres'}
+                        #, "pipeline": [ {"$match": {"$expr": { "$and": [{ "$eq": ["$tconst", "$$basic_number"] }]      }}}
+                        #,{ "$project": { "primaryTitle":0}}], "as": "movie"}}])            
+            
+            for lists in big_list:
+                print(lists)
+            
+            #mov_list = db.title_rating.aggregate([{"$lookup": { "from": "title_basic", "let": {"basic_number": '$tconst', "gen" : '$genres'}
+            #            , "pipeline": [ {"$match": {"$expr": { "$and": [ { "$eq": ["$tconst", "$$basic_number"] }
+            #            , {"$eq": ["$$gen", genre]}, { "$gte": ["$numVotes", votes]}]      }}}
+            #            , { "$project": { "primaryTitle":0}}], "as": "movie"}}])
+            #,  { "$sort": {"averageRating"}}
+            #sorted_list = title_rating.find({'numVotes':{'$gt':votes}}).sort('averageRating', -1)
+            #movies_in_genre = title_basic.find({'genres': {'$regex': genre, '$options': '-i'}})
+            
+            #big_list =[]
+            #for film in movies_in_genre:
+                #big_list.append(film['tconst'])
+            #for movie in sorted_list:
+                #print(movie['tconst'])
+                #if movie in big_list:
+                    #print(flim['primaryTitle'], movie['averageRating'])
+                #for film in movies_in_genre:
+                    #print('film: ',film['tconst'], 'movie:', movie['tconst'])
+                    #if movie['tconst'] == film['tconst']:
+                    #    print(flim['primaryTitle'], movie['averageRating'])
+                #print("hey")
         
 def search(db,name_basic,title_basic,title_principal,title_rating):
     while(1):
