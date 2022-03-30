@@ -152,8 +152,8 @@ enter a minimum vote count: ''')
             for mov in mov_list:
                 for rate in mov['good_rate']:
                     if rate['numVotes'] > votes:
-                        print('Title:', mov['primaryTitle']+', rating:',
-                              rate['averageRating']+', Votes:', rate['numVotes'])
+                        print('Title:', mov['primaryTitle']+'; Rating:',
+                              rate['averageRating']+'; Votes:', rate['numVotes'])
 
 
 def title_search():
