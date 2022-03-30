@@ -243,6 +243,7 @@ to select a title enter the number that appeared by the movie: ''')
                 people_list = []
                 for people in peoples:
                     crew = []
+                    crew.append(people["category"])
                     characters = name_basics.find({'nconst': people['nconst']})
                     for character in characters:
                         crew.append(character['primaryName'])
@@ -255,7 +256,7 @@ to select a title enter the number that appeared by the movie: ''')
                     print(
                         "Rating: ", rate_vote["averageRating"], "\nVotes:", rate_vote["numVotes"])
                 for people in people_list:
-                    print("Actor: ", people[0], "   Character: ", people[1])
+                    print(people[0], ": ", people[1], "   Character: ", people[2])
 
                 inp = 'd'
                 while(x != "back1" and x != "back2"):
