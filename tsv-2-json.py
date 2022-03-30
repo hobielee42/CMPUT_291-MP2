@@ -52,13 +52,12 @@ def tsvToJson(filename):
                 while doc[i][0] == "0" and len(doc[i]) > 1:
                     doc[i] = doc[i][1:]
                 
-#            elif doc[i] == "\\N":
-#                doc[i] = "null"
+            elif doc[i] == "\\N":
+                doc[i] = "null"
                 
             else:
                 # because for some reason imdb thinks putting " in names is funny
                 doc[i] = doc[i].replace("\"", "\'")
-                doc[i] = doc[i].replace("\\", "\\\\")
                 doc[i] = "\"" + doc[i] + "\""
                 
             writeStr = writeStr + fields[i].__repr__().replace("\'", "\"") + ": " + doc[i] + "," # optional newline after
