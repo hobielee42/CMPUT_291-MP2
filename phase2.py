@@ -72,24 +72,27 @@ To search for a cast/crew member enter their name here: ''')
             search['primaryName'] = dick
             dic_list.append(search)
         casts = name_basics.find_one({'$and': dic_list})
-        print(casts['primaryName'], 'Professions : ', casts['primaryProfession'])
-        movies = title_principals.find({'nconst': casts['nconst']})
-        for movie in movies:
-            actual_name = title_basics.find_one({'tconst': movie['tconst']})
-            # print("Title:", actual_name['primaryTitle']+"; Job: ",
-            #       movie['category'], 'role: ', movie['characters'])
-            str = 'Title: '+actual_name['primaryTitle'] + \
-                '; '+'Job: '+movie['category']
-            if movie['category'] in ['actor', 'actress'] or movie['characters'] != ['\\N']:
-                str += '; Character(s): '
-                for character in movie['characters']:
-                    if character == '\\N':
-                        character = 'N/A'
-                    str += character+', '
-                str = str[:-2]
-            else:
-                str += ' - '+movie['job']
-            print(str)
+        if casts != None:
+            print(casts['primaryName'], 'Professions : ', casts['primaryProfession'])
+            movies = title_principals.find({'nconst': casts['nconst']})
+            for movie in movies:
+                actual_name = title_basics.find_one({'tconst': movie['tconst']})
+                # print("Title:", actual_name['primaryTitle']+"; Job: ",
+                #       movie['category'], 'role: ', movie['characters'])
+                str = 'Title: '+actual_name['primaryTitle'] + \
+                    '; '+'Job: '+movie['category']
+                if movie['category'] in ['actor', 'actress'] or movie['characters'] != ['\\N']:
+                    str += '; Character(s): '
+                    for character in movie['characters']:
+                        if character == '\\N':
+                            character = 'N/A'
+                        str += character+', '
+                    str = str[:-2]
+                else:
+                    str += ' - '+movie['job']
+                print(str)
+        else:
+            print("Name is not found")
             
 
 
