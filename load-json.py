@@ -29,15 +29,11 @@ def main():
         
         data = None
         with open(fileName, encoding="utf-8") as file:
-            # need to try to change this; loading 60mb into memory is hyper bad
-            data = json.load(file)
-
-#            for line in file:
-#                if "[" not in line:
-#                    line = line.strip()
-#                    collections[fileName].insert_one(json.loads(line))
-
-        collections[fileName].insert_many(data)
+            # this takes SO LONG
+            for line in file:
+                line = line.strip("[],\n")
+                if line != "":
+                    collections[fileName].insert_one(json.loads(line))
         
     client.close()
 
