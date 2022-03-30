@@ -51,7 +51,7 @@ def cast_search():
     global db
     name_basics = db["name_basics"]
     title_basics = db["title_basics"]
-    title_principals = db["title_principal"]
+    title_principals = db["title_principals"]
     while(1):
         inp = input('''
 To go back to menu type 'back'
