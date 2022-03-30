@@ -58,6 +58,7 @@ def tsvToJson(filename):
             else:
                 # because for some reason imdb thinks putting " in names is funny
                 doc[i] = doc[i].replace("\"", "\'")
+                doc[i] = doc[i].replace("\\", "\\\\")
                 doc[i] = "\"" + doc[i] + "\""
                 
             writeStr = writeStr + fields[i].__repr__().replace("\'", "\"") + ": " + doc[i] + "," # optional newline after
