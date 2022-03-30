@@ -39,6 +39,9 @@ def main():
 
         collections[fileName].insert_many(data)
         
+    db["title_ratings"].create_index([("numVotes", 1)])
+    db["title_basics"].create_index({("genres", 1)})
+        
     client.close()
 
 
