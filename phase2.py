@@ -215,9 +215,10 @@ To search for a movie enter key words here: ''')
             movie_list = []
             count = 1
             for mov in movies:
-                print(count, ": ", mov["tconst"], mov["titleType"], mov["primaryTitle"], mov["originalTitle"],
-                      mov["isAdult"], mov["startYear"], mov["endYear"], mov["runtimeMinutes"], mov["genres"])
+                print(count, ": ", mov["tconst"], "|", mov["titleType"], "|", mov["primaryTitle"], "| Original title:", mov["originalTitle"],
+                      "| Is adult:", mov["isAdult"], "| Start/End year:", mov["startYear"], mov["endYear"], "| Runtime (min):", mov["runtimeMinutes"], "|", mov["genres"])
                 movie_list.append([mov["tconst"], mov["primaryTitle"]])
+                print()
                 count = count + 1
             if count == 1:
                 print("\nThere are no movies that fit those extact search inputs")
