@@ -81,6 +81,7 @@ To search for a cast/crew member enter their name here: ''')
                     search['tconst'] = title
                     dic_list.append(search)
             print(cast['primaryName'], ' :')
+            
             if len(dic_list) > 0:
                 movies = title_basics.find({'$or': dic_list})
                 for movie in movies:
@@ -90,8 +91,8 @@ To search for a cast/crew member enter their name here: ''')
                     for person in people:
                         print('    job:',
                               person['category'], person['characters'])
-            else:
-                print(' No Movies ')
+            #else:
+            #    print(' No Movies ')
             print('')
 
 
@@ -133,40 +134,17 @@ enter a minimum vote count: ''')
 
             big_list = []
             #mov_list = db.title_ratings.aggregate([ {"$lookup": { "from": 'title_basics', 'localField': 'tconst', 'foreignField': 'tconst', 'as': 'title'}}]).sort("averageRating", -1)
-            mov_list = db.title_basics.aggregate([{'$unwind': '$genres'},
-                                                 {'$match': {'$expr': {'$eq': [genre, {'$toLower': '$genres'}]}}}, {'$lookup': {'from': 'title_ratings', 'localField': 'tconst', 'foreignField': 'tconst', 'as': 'rating'}}, {'$sort': {'rating.averageRating': -1, 'rating.numVotes': -1}}])
+            #mov_list = db.title_basics.aggregate([{'$unwind': '$genres'},
+            #                                     {'$match': {'$expr': {'$eq': [genre, {'$toLower': '$genres'}]}}}, {'$lookup': {'from': 'title_ratings', 'localField': 'tconst', 'foreignField': 'tconst', 'as': 'good_rate'}}, {'$sort': {'good_rate.averageRating': -1}}])
 
+            mov_list = db.title_basics.aggregate([{"$lookup": {"from": "title_ratings", "let": {"field": "$tconst"}, "pipeline": [], "localField": "tconst", "foreignField": "tconst", "as": "good_rate"}},
+                                                  {'$unwind': '$genres'},
+                                                 {'$match': {'$expr': {'$eq': [genre, {'$toLower': '$genres'}]}}}, {'$sort': {'good_rate.averageRating': -1}}])            
+    
             for mov in mov_list:
-                if len(mov['rating']) > 0:
-                    if int(mov['rating'][0]['numVotes']) >= votes:
-                        big_list.append(mov)
-                        # "let": {"basic_number": '$tconst', "gen" : '$genres'}
-                        # , "pipeline": [ {"$match": {"$expr": { "$and": [{ "$eq": ["$tconst", "$$basic_number"] }]      }}}
-                        # ,{ "$project": { "primaryTitle":0}}], "as": "movie"}}])
-
-            for lists in big_list:
-                print(lists)
-
-            # mov_list = db.title_ratings.aggregate([{"$lookup": { "from": "title_basics", "let": {"basic_number": '$tconst', "gen" : '$genres'}
-            #            , "pipeline": [ {"$match": {"$expr": { "$and": [ { "$eq": ["$tconst", "$$basic_number"] }
-            #            , {"$eq": ["$$gen", genre]}, { "$gte": ["$numVotes", votes]}]      }}}
-            #            , { "$project": { "primaryTitle":0}}], "as": "movie"}}])
-            # ,  { "$sort": {"averageRating"}}
-            #sorted_list = title_ratings.find({'numVotes':{'$gt':votes}}).sort('averageRating', -1)
-            #movies_in_genre = title_basics.find({'genres': {'$regex': genre, '$options': '-i'}})
-
-            #big_list =[]
-            # for film in movies_in_genre:
-                # big_list.append(film['tconst'])
-            # for movie in sorted_list:
-                # print(movie['tconst'])
-                # if movie in big_list:
-                #print(flim['primaryTitle'], movie['averageRating'])
-                # for film in movies_in_genre:
-                #print('film: ',film['tconst'], 'movie:', movie['tconst'])
-                # if movie['tconst'] == film['tconst']:
-                #    print(flim['primaryTitle'], movie['averageRating'])
-                # print("hey")
+                for rate in mov['good_rate']:
+                    if rate['numVotes'] > votes:
+                        print('Title : ', mov['primaryTitle'], ', rating:', rate['averageRating'], ', Votes:', rate['numVotes'])
 
 
 def search():
