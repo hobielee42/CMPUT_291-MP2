@@ -72,7 +72,7 @@ To search for a cast/crew member enter their name here: ''')
             search['primaryName'] = dick
             dic_list.append(search)
         casts = name_basics.find_one({'$and': dic_list})
-        print(casts['primaryName'])
+        print(casts['primaryName'], 'Professions : ', casts['primaryProfession'])
         movies = title_principals.find({'nconst': casts['nconst']})
         for movie in movies:
             actual_name = title_basics.find_one({'tconst': movie['tconst']})
@@ -90,6 +90,7 @@ To search for a cast/crew member enter their name here: ''')
             else:
                 str += ' - '+movie['job']
             print(str)
+            
 
 
 def genres_search():
