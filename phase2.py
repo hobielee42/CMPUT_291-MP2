@@ -119,7 +119,7 @@ To search for a genre enter here: ''')
             inp = input('''
 To go back to menu type 'back'
 to search for a different genre type 'genre'
-enter a minium vote count: ''')
+enter a minimum vote count: ''')
             if inp.lower() == 'back':
                 return
             if inp.lower() == 'genre':
@@ -132,13 +132,13 @@ enter a minium vote count: ''')
         if x != 'back1':
 
             big_list = []
-            #mov_list = db.title_rating.aggregate([ {"$lookup": { "from": 'title_basics', 'localField': 'tconst', 'foreignField': 'tconst', 'as': 'title'}}]).sort("averageRating", -1)
+            #mov_list = db.title_ratings.aggregate([ {"$lookup": { "from": 'title_basics', 'localField': 'tconst', 'foreignField': 'tconst', 'as': 'title'}}]).sort("averageRating", -1)
             mov_list = db.title_basics.aggregate([{'$unwind': '$genres'},
-                                                 {'$match': {'$expr': {'$eq': [genre, {'$toLower': '$genres'}]}}}, {'$lookup': {'from': 'title_rating', 'localField': 'tconst', 'foreignField': 'tconst', 'as': 'rating'}}, {'$sort': {'rating.averageRating': -1, 'rating.numVotes': -1}}])
+                                                 {'$match': {'$expr': {'$eq': [genre, {'$toLower': '$genres'}]}}}, {'$lookup': {'from': 'title_ratings', 'localField': 'tconst', 'foreignField': 'tconst', 'as': 'rating'}}, {'$sort': {'rating.averageRating': -1, 'rating.numVotes': -1}}])
 
             for mov in mov_list:
                 if len(mov['rating']) > 0:
-                    if int(row['rating'][0]['numVotes']) >= votes:
+                    if int(mov['rating'][0]['numVotes']) >= votes:
                         big_list.append(mov)
                         # "let": {"basic_number": '$tconst', "gen" : '$genres'}
                         # , "pipeline": [ {"$match": {"$expr": { "$and": [{ "$eq": ["$tconst", "$$basic_number"] }]      }}}
@@ -147,12 +147,12 @@ enter a minium vote count: ''')
             for lists in big_list:
                 print(lists)
 
-            # mov_list = db.title_rating.aggregate([{"$lookup": { "from": "title_basics", "let": {"basic_number": '$tconst', "gen" : '$genres'}
+            # mov_list = db.title_ratings.aggregate([{"$lookup": { "from": "title_basics", "let": {"basic_number": '$tconst', "gen" : '$genres'}
             #            , "pipeline": [ {"$match": {"$expr": { "$and": [ { "$eq": ["$tconst", "$$basic_number"] }
             #            , {"$eq": ["$$gen", genre]}, { "$gte": ["$numVotes", votes]}]      }}}
             #            , { "$project": { "primaryTitle":0}}], "as": "movie"}}])
             # ,  { "$sort": {"averageRating"}}
-            #sorted_list = title_rating.find({'numVotes':{'$gt':votes}}).sort('averageRating', -1)
+            #sorted_list = title_ratings.find({'numVotes':{'$gt':votes}}).sort('averageRating', -1)
             #movies_in_genre = title_basics.find({'genres': {'$regex': genre, '$options': '-i'}})
 
             #big_list =[]
@@ -174,7 +174,7 @@ def search():
     name_basics = db['name_basics']
     title_basics = db['title_basics']
     title_principals = db['title_principals']
-    title_rating = db['title_ratings']
+    title_ratings = db['title_ratings']
     while(1):
         x = ""
         inp = input('''
@@ -237,7 +237,7 @@ to select a title enter the number that appeared by the movie: ''')
 
                 print(selected_movie)
 
-                rate_votes = title_rating.find({'tconst': selected_movie})
+                rate_votes = title_ratings.find({'tconst': selected_movie})
                 peoples = title_principals.find({'tconst': selected_movie})
 
                 people_list = []
