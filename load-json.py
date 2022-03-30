@@ -23,7 +23,7 @@ def main():
         print("processing file " + fileName + "...")
     
         # might not need this but i'm not sure if pymongo's dict is efficient to access over and over
-        collectionName = fileName.rstrip(".json").replace(".", "_")
+        collectionName = fileName.rstrip("json").rstrip(".").replace(".", "_")
         collections[fileName] = db[collectionName]
         collections[fileName].drop()
         
