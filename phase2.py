@@ -49,8 +49,8 @@ def menu():
 
 def genres_search():
     global db
-    title_basic = db['title_basic']
-    genres = title_basic.distinct("genres")
+    title_basics = db['title_basics']
+    genres = title_basics.distinct("genres")
     while(1):
         free = 0
         x = 'd'
@@ -84,8 +84,8 @@ enter a minium vote count: ''')
         if x != 'back1':
 
             big_list = []
-            #mov_list = db.title_rating.aggregate([ {"$lookup": { "from": 'title_basic', 'localField': 'tconst', 'foreignField': 'tconst', 'as': 'title'}}]).sort("averageRating", -1)
-            mov_list = db.title_basic.aggregate([{'$unwind': '$genres'},
+            #mov_list = db.title_rating.aggregate([ {"$lookup": { "from": 'title_basics', 'localField': 'tconst', 'foreignField': 'tconst', 'as': 'title'}}]).sort("averageRating", -1)
+            mov_list = db.title_basics.aggregate([{'$unwind': '$genres'},
                                                  {'$match': {'$expr': {'$eq': [genre, {'$toLower': '$genres'}]}}}, {'$lookup': {'from': 'title_rating', 'localField': 'tconst', 'foreignField': 'tconst', 'as': 'rating'}}, {'$sort': {'rating.averageRating': -1, 'rating.numVotes': -1}}])
 
             for mov in mov_list:
@@ -99,13 +99,13 @@ enter a minium vote count: ''')
             for lists in big_list:
                 print(lists)
 
-            # mov_list = db.title_rating.aggregate([{"$lookup": { "from": "title_basic", "let": {"basic_number": '$tconst', "gen" : '$genres'}
+            # mov_list = db.title_rating.aggregate([{"$lookup": { "from": "title_basics", "let": {"basic_number": '$tconst', "gen" : '$genres'}
             #            , "pipeline": [ {"$match": {"$expr": { "$and": [ { "$eq": ["$tconst", "$$basic_number"] }
             #            , {"$eq": ["$$gen", genre]}, { "$gte": ["$numVotes", votes]}]      }}}
             #            , { "$project": { "primaryTitle":0}}], "as": "movie"}}])
             # ,  { "$sort": {"averageRating"}}
             #sorted_list = title_rating.find({'numVotes':{'$gt':votes}}).sort('averageRating', -1)
-            #movies_in_genre = title_basic.find({'genres': {'$regex': genre, '$options': '-i'}})
+            #movies_in_genre = title_basics.find({'genres': {'$regex': genre, '$options': '-i'}})
 
             #big_list =[]
             # for film in movies_in_genre:
@@ -123,10 +123,10 @@ enter a minium vote count: ''')
 
 def search():
     global db
-    name_basic = db['name_basic']
-    title_basic = db['title_basic']
-    title_principal = db['title_principal']
-    title_rating = db['title_rating']
+    name_basics = db['name_basics']
+    title_basics = db['title_basics']
+    title_principals = db['title_principals']
+    title_rating = db['title_ratings']
     while(1):
         x = ""
         inp = input('''
@@ -165,7 +165,7 @@ To search for a movie enter key words here: ''')
         #movies = title_basic.find({'$and': [{'primaryTitle': {'$regex': '.*' + inp + '.*' }} ]})
         while(x != "back2"):
             x = 'd'
-            movies = title_basic.find({'$and': dic_list})
+            movies = title_basics.find({'$and': dic_list})
             #movies = title_basic.find({'primaryTitle': '*' + word + '*'})
             movie_list = []
             count = 1
@@ -196,12 +196,12 @@ to select a title enter the number that appeared by the movie: ''')
 
                 rate_votes = title_rating.find({'tconst': selected_movie})
                 #rate_votes = title_rating.find({})
-                peoples = title_principal.find({'tconst': selected_movie})
+                peoples = title_principals.find({'tconst': selected_movie})
 
                 people_list = []
                 for people in peoples:
                     crew = []
-                    characters = name_basic.find({'nconst': people['nconst']})
+                    characters = name_basics.find({'nconst': people['nconst']})
                     for character in characters:
                         crew.append(character['primaryName'])
                     crew.append(people["characters"])
