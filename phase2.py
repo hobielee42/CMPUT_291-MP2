@@ -303,7 +303,7 @@ def addMovie():
         if genres == '':
             return 0
         if genres == '0':
-            genres = None
+            genres = ['\\N']
             break
         genres = genres.split(',')
         if len(genres) in range(1, 4):
