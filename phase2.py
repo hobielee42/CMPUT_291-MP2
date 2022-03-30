@@ -14,6 +14,7 @@ def main():
 
 def menu():
     while True:
+        flag = 0
         print('-'*10)
         print('MAIN MENU')
         print('-'*10)
@@ -21,7 +22,7 @@ def menu():
         print('2. Search for genres')
         print('3. Search for cast/crew members')
         print('4. Add a movie')
-        print('5. Add a cast/crew member')
+        print('5. Add a cast/crew member\n')
         while True:
             op = input(
                 'Enter a number to select an option\nor press enter to end program: ')
@@ -38,7 +39,7 @@ def menu():
             flag = addMovie()
         elif op == '5':
             flag = addMember()
-        elif op=='':
+        elif op == '':
             break
         if flag == 1:
             break
