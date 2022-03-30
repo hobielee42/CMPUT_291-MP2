@@ -189,7 +189,6 @@ To search for a movie enter key words here: ''')
                 search['primaryTitle'] = dick
 
             dic_list.append(search)
-        print(dic_list)
         while(x != "back2"):
             x = 'd'
             movies = title_basics.find({'$and': dic_list})
