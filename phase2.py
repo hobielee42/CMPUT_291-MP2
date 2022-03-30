@@ -15,11 +15,11 @@ def main():
 def menu():
     while True:
         flag = 0
-        print('-'*10)
+        print('\n'+'-'*10)
         print('MAIN MENU')
         print('-'*10)
-        print('''
-1. Search for titles
+        print(
+            '''1. Search for titles
 2. Search for genres
 3. Search for cast/crew members
 4. Add a movie
