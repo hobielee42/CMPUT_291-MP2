@@ -29,11 +29,11 @@ def menu():
                 break
             print('Invalid option.')
         if op == '1':
-            pass
+            pass            # Ian plug in your L0NG B0I here
         elif op == '2':
-            pass
+            pass            # Ian plug in your L0NG B0I here
         elif op == '3':
-            pass
+            pass            # Ian plug in your L0NG B0I here
         elif op == '4':
             flag = addMovie()
         elif op == '5':
