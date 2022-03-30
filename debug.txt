@@ -1,0 +1,10 @@
+- part 3:
+    title searched based on "Known for titles" in name_basics, which is wrong
+
+- part 1:
+    the professions of cast/crew not printed correctly.
+    all say "Actor", but not all are actors.
+    check line 258
+
+- part 1, 2 and 3:
+    output not readable
