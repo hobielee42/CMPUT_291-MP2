@@ -55,12 +55,13 @@ def cast_search():
     while(1):
         inp = input('''
 To go back to menu type 'back'
+to quit entire program type 'quit'
 To search for a cast/crew member enter their name here: ''')
         list_of_cast = []
         if inp.lower() == 'back':
             return
-        if inp.lower() == 'back':
-            return
+        if inp.lower() == 'quit':
+            return 1        
         key_words = inp.split()
         search = {}
         dic_list = []
@@ -87,9 +88,12 @@ def genres_search():
         x = 'd'
         inp = input('''
 To go back to menu type 'back'
+to quit entire program type 'quit'
 To search for a genre enter here: ''')
         if inp.lower() == 'back':
             return
+        if inp.lower() == 'quit':
+            return 1        
         for cat in genres:
             if inp.lower() == cat.lower():
                 free = 1
@@ -101,10 +105,13 @@ To search for a genre enter here: ''')
         while(not isnumber and x != 'back1'):
             inp = input('''
 To go back to menu type 'back'
+to quit entire program type 'quit'
 to search for a different genre type 'genre'
 enter a minimum vote count: ''')
             if inp.lower() == 'back':
                 return
+            if inp.lower() == 'quit':
+                return 1            
             if inp.lower() == 'genre':
                 x = 'back1'
             if ord(inp[0]) >= 48 and ord(inp[0]) <= 57:
@@ -121,8 +128,8 @@ enter a minimum vote count: ''')
             for mov in mov_list:
                 for rate in mov['good_rate']:
                     if rate['numVotes'] > votes:
-                        print('Title:', mov['primaryTitle']+'; Rating:',
-                              rate['averageRating']+'; Votes:', rate['numVotes'])
+                        print('Title:', mov['primaryTitle'], '; Rating:',
+                              rate['averageRating'], '; Votes:', rate['numVotes'])
 
 
 def title_search():
@@ -137,9 +144,12 @@ def title_search():
         while(len(inp) <= 0):
             inp = input('''
 To go back to menu type 'back'
+to quit entire program type 'quit'
 To search for a movie enter key words here: ''')
         if inp.lower() == 'back':
             return
+        if inp.lower() == 'quit':
+            return 1        
         key_words = inp.split()
         search = {}
         dic_list = []
@@ -185,9 +195,12 @@ To search for a movie enter key words here: ''')
                     inp = input('''
 to go back to main menu type 'back'
 to preform another search type 'search'
+to quit entire program type 'quit'
 to select a title enter the number that appeared by the movie: ''')
                 if inp.lower() == 'back':
-                    return
+                    return 0
+                if inp.lower() == 'quit':
+                    return 1
                 if inp.lower() == 'search':
                     x = 'back2'
             if (x != 'back2'):
@@ -224,6 +237,7 @@ to select a title enter the number that appeared by the movie: ''')
                     while(len(inp) <= 0):
                         inp = input('''
 to go back to main menu type 'back'
+to quit entire program type 'quit'
 to search again enter 1
 to select another title from you previous search enter 2: ''')
                     if ord(inp[0]) == 49:
@@ -232,6 +246,8 @@ to select another title from you previous search enter 2: ''')
                         x = "back1"
                     if inp.lower() == 'back':
                         return
+                    if inp.lower() == 'quit':
+                        return 1                    
 
 
 def addMovie():
