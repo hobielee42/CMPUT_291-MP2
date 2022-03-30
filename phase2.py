@@ -4,7 +4,7 @@ from pymongo import MongoClient
 
 def main():
     global db
-    # port = input("Input a port number: ")
+    # port = input("Input a port number: ")         # remember to activate this one
     port = 27017
 
     client = MongoClient("localhost", int(port))
