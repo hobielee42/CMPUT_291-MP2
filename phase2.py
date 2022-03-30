@@ -60,7 +60,7 @@ To search for a cast/crew member enter their name here: ''')
         if inp.lower() == 'back':
             return
         if inp.lower() == 'quit':
-            return 1        
+            return 1
         key_words = inp.split()
         search = {}
         dic_list = []
@@ -76,8 +76,20 @@ To search for a cast/crew member enter their name here: ''')
         movies = title_principals.find({'nconst': casts['nconst']})
         for movie in movies:
             actual_name = title_basics.find_one({'tconst': movie['tconst']})
-            print("Title:", actual_name['primaryTitle'], "job: ",
-                  movie['category'], 'role: ', movie['characters'])
+            # print("Title:", actual_name['primaryTitle']+"; Job: ",
+            #       movie['category'], 'role: ', movie['characters'])
+            str = 'Title: '+actual_name['primaryTitle'] + \
+                '; '+'Job: '+movie['category']
+            if movie['category'] in ['actor', 'actress'] or movie['characters'] != ['\\N']:
+                str += '; Character(s): '
+                for character in movie['characters']:
+                    if character == '\\N':
+                        character = 'N/A'
+                    str += character+', '
+                str = str[:-2]
+            else:
+                str += ' - '+movie['job']
+            print(str)
 
 
 def genres_search():
@@ -94,7 +106,7 @@ To search for a genre enter here: ''')
         if inp.lower() == 'back':
             return
         if inp.lower() == 'quit':
-            return 1        
+            return 1
         for cat in genres:
             if inp.lower() == cat.lower():
                 free = 1
@@ -112,7 +124,7 @@ enter a minimum vote count: ''')
             if inp.lower() == 'back':
                 return
             if inp.lower() == 'quit':
-                return 1            
+                return 1
             if inp.lower() == 'genre':
                 x = 'back1'
             if ord(inp[0]) >= 48 and ord(inp[0]) <= 57:
@@ -150,7 +162,7 @@ To search for a movie enter key words here: ''')
         if inp.lower() == 'back':
             return
         if inp.lower() == 'quit':
-            return 1        
+            return 1
         key_words = inp.split()
         search = {}
         dic_list = []
@@ -248,7 +260,7 @@ to select another title from you previous search enter 2: ''')
                     if inp.lower() == 'back':
                         return
                     if inp.lower() == 'quit':
-                        return 1                    
+                        return 1
 
 
 def addMovie():
