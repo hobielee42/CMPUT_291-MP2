@@ -104,8 +104,8 @@ To search for a cast/crew member enter their name here: ''')
                                 jobstr += ' - '+job['job']
                         print(jobstr)
 
-                            # else:
-                            #    print(' No Movies ')
+                        # else:
+                        #    print(' No Movies ')
             print('')
 
 
@@ -145,11 +145,6 @@ enter a minimum vote count: ''')
                 print("Please input a number")
         if x != 'back1':
 
-            big_list = []
-            #mov_list = db.title_ratings.aggregate([ {"$lookup": { "from": 'title_basics', 'localField': 'tconst', 'foreignField': 'tconst', 'as': 'title'}}]).sort("averageRating", -1)
-            # mov_list = db.title_basics.aggregate([{'$unwind': '$genres'},
-            #                                     {'$match': {'$expr': {'$eq': [genre, {'$toLower': '$genres'}]}}}, {'$lookup': {'from': 'title_ratings', 'localField': 'tconst', 'foreignField': 'tconst', 'as': 'good_rate'}}, {'$sort': {'good_rate.averageRating': -1}}])
-
             mov_list = db.title_basics.aggregate([{"$lookup": {"from": "title_ratings", "let": {"field": "$tconst"}, "pipeline": [], "localField": "tconst", "foreignField": "tconst", "as": "good_rate"}},
                                                   {'$unwind': '$genres'},
                                                  {'$match': {'$expr': {'$eq': [genre, {'$toLower': '$genres'}]}}}, {'$sort': {'good_rate.averageRating': -1}}])
@@ -157,8 +152,8 @@ enter a minimum vote count: ''')
             for mov in mov_list:
                 for rate in mov['good_rate']:
                     if rate['numVotes'] > votes:
-                        print('Title : ', mov['primaryTitle'], ', rating:',
-                              rate['averageRating'], ', Votes:', rate['numVotes'])
+                        print('Title:', mov['primaryTitle']+', rating:',
+                              rate['averageRating']+', Votes:', rate['numVotes'])
 
 
 def title_search():
