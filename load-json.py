@@ -42,6 +42,7 @@ def main():
             collections[fileName].create_index([("tconst", 1)])
         
     db["title_ratings"].create_index([("numVotes", 1)])
+    db["name_basics"].create_index([("primaryName", 1)])
         
     client.close()
 
