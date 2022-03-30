@@ -34,9 +34,9 @@ def menu():
         if op == '1':
             flag = title_search()
         elif op == '2':
-            genres_search()
+            flag = genres_search()
         elif op == '3':
-            cast_search()
+            flag = cast_search()
         elif op == '4':
             flag = addMovie()
         elif op == '5':
